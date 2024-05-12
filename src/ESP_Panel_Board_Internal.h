@@ -14,7 +14,7 @@
     defined(BOARD_ESP32_S3_KORVO_2) + defined(BOARD_ESP32_S3_LCD_EV_BOARD) + \
     defined(BOARD_ESP32_S3_LCD_EV_BOARD_V1_5) +  defined(BOARD_ESP32_S3_LCD_EV_BOARD_2) + \
     defined(BOARD_ESP32_S3_LCD_EV_BOARD_2_V1_5) + defined(BOARD_ESP32_S3_USB_OTG)  + \
-    defined(BOARD_ESP32_4848S040C_I_Y_3) \
+    defined(BOARD_ESP32_4848S040C_I_Y_3) + defined(BOARD_ESP32_S3_Touch_LCD_4_3)  + \
     > 1
     #error "Multiple boards enabled! Please check file `ESP_Panel_Board_Supported.h` and make sure only one board is enabled."
 #endif
@@ -48,6 +48,9 @@
 /* Jingcai */
 #elif defined(BOARD_ESP32_4848S040C_I_Y_3) || CONFIG_BOARD_ESP32_4848S040C_I_Y_3
     #include "board/jingcai/ESP32_4848S040C_I_Y_3.h"
+/* Waveshare */
+#elif defined(BOARD_ESP32_S3_Touch_LCD_4_3) || CONFIG_BOARD_ESP32_S3_Touch_LCD_4_3
+    #include ""board/waveshare/ESP32_S3_Touch_LCD_4.3.h"
 #else
     #error "Unkonw board selected! Please check file `ESP_Panel_Board_Supported.h` and make sure only one board is enabled."
 #endif
