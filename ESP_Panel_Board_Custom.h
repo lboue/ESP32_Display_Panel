@@ -308,6 +308,7 @@
  *      - HT8574
  *      - TCA95xx_8bit
  *      - TCA95xx_16bit
+ *      - CH422G
  */
 #define ESP_PANEL_EXPANDER_NAME         TCA95xx_8bit
 
