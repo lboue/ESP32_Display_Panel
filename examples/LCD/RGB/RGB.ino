@@ -48,7 +48,7 @@
  * Currently, the library supports the following RGB (without 3-wire SPI) LCDs:
  *      - ST7262
  */
-#define EXAMPLE_LCD_NAME                        ST7262
+#define EXAMPLE_LCD_NAME                        EK9716BD3
 #define EXAMPLE_LCD_WIDTH                       (800)
 #define EXAMPLE_LCD_HEIGHT                      (480)
 #define EXAMPLE_LCD_COLOR_BITS                  (24)
@@ -65,30 +65,36 @@
 //////////////////// Please update the following configuration according to your board spec ////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #define EXAMPLE_LCD_PIN_NUM_RGB_DISP            (-1)
-#define EXAMPLE_LCD_PIN_NUM_RGB_VSYNC           (3)
-#define EXAMPLE_LCD_PIN_NUM_RGB_HSYNC           (46)
-#define EXAMPLE_LCD_PIN_NUM_RGB_DE              (17)
-#define EXAMPLE_LCD_PIN_NUM_RGB_PCLK            (9)
-#define EXAMPLE_LCD_PIN_NUM_RGB_DATA0           (10)
-#define EXAMPLE_LCD_PIN_NUM_RGB_DATA1           (11)
-#define EXAMPLE_LCD_PIN_NUM_RGB_DATA2           (12)
-#define EXAMPLE_LCD_PIN_NUM_RGB_DATA3           (13)
-#define EXAMPLE_LCD_PIN_NUM_RGB_DATA4           (14)
-#define EXAMPLE_LCD_PIN_NUM_RGB_DATA5           (21)
-#define EXAMPLE_LCD_PIN_NUM_RGB_DATA6           (47)
-#define EXAMPLE_LCD_PIN_NUM_RGB_DATA7           (48)
+#define EXAMPLE_LCD_PIN_NUM_RGB_VSYNC           (40)
+#define EXAMPLE_LCD_PIN_NUM_RGB_HSYNC           (39)
+#define EXAMPLE_LCD_PIN_NUM_RGB_DE              (41)
+#define EXAMPLE_LCD_PIN_NUM_RGB_PCLK            (0)
+
+// Blue
+#define EXAMPLE_LCD_PIN_NUM_RGB_DATA0           (15) // B0
+#define EXAMPLE_LCD_PIN_NUM_RGB_DATA1           (7)  // B1
+#define EXAMPLE_LCD_PIN_NUM_RGB_DATA2           (6)  // B2
+#define EXAMPLE_LCD_PIN_NUM_RGB_DATA3           (5)  // B3
+#define EXAMPLE_LCD_PIN_NUM_RGB_DATA4           (4)  // B4
+
+// Green
+#define EXAMPLE_LCD_PIN_NUM_RGB_DATA5           (9)  // G0
+#define EXAMPLE_LCD_PIN_NUM_RGB_DATA6           (46) // G1
+#define EXAMPLE_LCD_PIN_NUM_RGB_DATA7           (3)  // G2
 #if EXAMPLE_LCD_RGB_DATA_WIDTH > 8
-#define EXAMPLE_LCD_PIN_NUM_RGB_DATA8           (45)
-#define EXAMPLE_LCD_PIN_NUM_RGB_DATA9           (38)
-#define EXAMPLE_LCD_PIN_NUM_RGB_DATA10          (39)
-#define EXAMPLE_LCD_PIN_NUM_RGB_DATA11          (40)
-#define EXAMPLE_LCD_PIN_NUM_RGB_DATA12          (41)
-#define EXAMPLE_LCD_PIN_NUM_RGB_DATA13          (42)
-#define EXAMPLE_LCD_PIN_NUM_RGB_DATA14          (2)
-#define EXAMPLE_LCD_PIN_NUM_RGB_DATA15          (1)
+#define EXAMPLE_LCD_PIN_NUM_RGB_DATA8           (8)  // G3
+#define EXAMPLE_LCD_PIN_NUM_RGB_DATA9           (16) // G4
+#define EXAMPLE_LCD_PIN_NUM_RGB_DATA10          (1)  // G5
+
+// Red
+#define EXAMPLE_LCD_PIN_NUM_RGB_DATA11          (14) // R0
+#define EXAMPLE_LCD_PIN_NUM_RGB_DATA12          (21) // R1
+#define EXAMPLE_LCD_PIN_NUM_RGB_DATA13          (47) // R2
+#define EXAMPLE_LCD_PIN_NUM_RGB_DATA14          (48) // R3
+#define EXAMPLE_LCD_PIN_NUM_RGB_DATA15          (45) // R4
 #endif
 #define EXAMPLE_LCD_PIN_NUM_RST                 (-1)
-#define EXAMPLE_LCD_PIN_NUM_BK_LIGHT            (-1)
+#define EXAMPLE_LCD_PIN_NUM_BK_LIGHT            (2)
 #define EXAMPLE_LCD_BK_LIGHT_ON_LEVEL           (1)
 
 #define EXAMPLE_LCD_BK_LIGHT_OFF_LEVEL !EXAMPLE_LCD_BK_LIGHT_ON_LEVEL
