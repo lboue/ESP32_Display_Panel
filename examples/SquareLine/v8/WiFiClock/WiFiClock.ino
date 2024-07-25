@@ -92,6 +92,7 @@
 #define WEATHER_API_KEY         ""    // Fill in the OpenWeather API KEY
 #define WEATHER_CITY            ""    // Fill in the city name, e.g. "Shanghai"
 #define TIMEZONE_OFFSET         ""    // Fill in the Timezone, e.g. "CST-8"
+#define WEATHER_LANGUAGE        "fr"        // lang parameter to get the output in your language
 
 /* Here are some macros can be changed */
 #define GEO_API_BASE_URL        "http://api.openweathermap.org/geo/1.0/direct?q="
@@ -99,6 +100,7 @@
 #define OPENWEATHER_BASE_URL    "http://api.openweathermap.org/data/2.5/weather?lat="
 #define LAT_PARAM               "&lon="
 #define API_KEY_PARAM           "&appid="
+#define API_LANG_PARAM          "&lang="  
 #define NVS_PART_NAME           "nvs"
 #define NVS_PART_NAMESPACE      "result"
 #define WIFI_NAME_LEN_MAX       20         // Maximum length for Wi-Fi name
@@ -110,6 +112,7 @@
 #define WEEK_INFO_LEN           20         // Maximum length for week information
 #define TEMPERATURE_LEN         20         // Maximum length for temperature information
 #define LOOP_DELAY_MS           500        // Delay in milliseconds for the loop
+
 
 nvs_handle_t nvs_flash_handle;
 
@@ -154,11 +157,13 @@ HTTPClient http;
 /* OpenWeatherMap API configuration */
 String openweather_api_key = WEATHER_API_KEY;
 String openweather_city = WEATHER_CITY;
+String openweather_lang = WEATHER_LANGUAGE;
 String url_openweather = "";
 String url_lat_lon = "";
 String weather_url = "";
 String lat_lon_url = "";
 String Weather = "";
+String Weather_description = "";
 String prev_weather = "";
 String lat = "";
 String lon = "";
@@ -274,7 +279,7 @@ void initializeNVSRead()
  *
  * This set of functions is designed for retrieving weather data from the OpenWeatherMap API and parsing it
 */
-String Getlatlon(String api,String city)
+String Getlatlon(String api, String city)
 {
     url_lat_lon =  GEO_API_BASE_URL;
     url_lat_lon += city;
@@ -283,12 +288,14 @@ String Getlatlon(String api,String city)
     return url_lat_lon;
 }
 
-String GetURL(String api,String lat, String lon)
+String GetURL(String api,String lat, String lon, String lang)
 {
     url_openweather =  OPENWEATHER_BASE_URL;
     url_openweather += lat;
     url_openweather += LAT_PARAM;
     url_openweather += lon;
+    url_openweather += API_LANG_PARAM;
+    url_openweather += lang;
     url_openweather += API_KEY_PARAM;
     url_openweather += api;
     return url_openweather;
@@ -307,10 +314,12 @@ void ParseWeather(String url)
             deserializeJson(doc, json);
 
             Weather = doc["weather"][0]["main"].as<String>();
+            Weather_description = doc["weather"][0]["description"].as<String>();
             temperature = doc["main"]["temp"].as<int>() - 273.15;
 
             Serial.printf("Weather: %s\n", Weather);
-            Serial.printf("temperature: %d\n", temperature);
+            Serial.printf("Weather description: %s\n", Weather_description);
+            Serial.printf("temperature: %d°C\n", temperature);
         } else {
             Serial.printf("ERROR: HTTP_CODE Weather\n");
         }
@@ -377,7 +386,8 @@ void getWeather()
     while(lat == NULL && lon == NULL) {
         Parselatlon(lat_lon_url);
     }
-    weather_url = GetURL(openweather_api_key, lat, lon);
+    weather_url = GetURL(openweather_api_key, lat, lon, openweather_lang);
+    Serial.println("weather_url: " + weather_url);
     ParseWeather(weather_url);
 }
 
@@ -452,10 +462,10 @@ void onWeatherUpdate(lv_timer_t *timer)
     }
 
     lv_obj_t *ui_Labelweather = (lv_obj_t *) timer->user_data;
-    lv_label_set_text_fmt(ui_Labelweather, "%s", Weather);
-    if(prev_weather != Weather) {
+    lv_label_set_text_fmt(ui_Labelweather, "%s", Weather_description);
+    if(prev_weather != Weather_description) {
         WeatherMod(Weather);
-        prev_weather = Weather;
+        prev_weather = Weather_description;
     }
 }
 
@@ -756,7 +766,8 @@ void updateWeatherAndTime()
     time(&now);
     localtime_r(&now, &timeinfo);
     strftime(time_str, sizeof(time_str), "%H:%M:%S", &timeinfo);
-    strftime(date_string, sizeof(date_string), "%Y-%m-%d", &timeinfo);
+    //strftime(date_string, sizeof(date_string), "%Y-%m-%d", &timeinfo);
+    strftime(date_string, sizeof(date_string), "%d/%m/%Y", &timeinfo);
     strftime(weekday_str, sizeof(weekday_str), "%A", &timeinfo);
 }
 
@@ -790,7 +801,7 @@ void setup()
 
     WiFi.mode(WIFI_STA);
     WiFi.disconnect();
-
+    Serial.println("Now - change timezone to Paris");
     setenv("TZ", TIMEZONE_OFFSET, 1);
     tzset();
 
