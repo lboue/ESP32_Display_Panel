@@ -63,11 +63,11 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////// Please update the following configuration according to your board spec ////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#define EXAMPLE_TOUCH_PIN_NUM_I2C_SCL   (10)
-#define EXAMPLE_TOUCH_PIN_NUM_I2C_SDA   (9)
-#define EXAMPLE_TOUCH_PIN_NUM_RST       (13)    // Set to `-1` if not used
+#define EXAMPLE_TOUCH_PIN_NUM_I2C_SCL   (9)
+#define EXAMPLE_TOUCH_PIN_NUM_I2C_SDA   (8)
+#define EXAMPLE_TOUCH_PIN_NUM_RST       (-1)    // Set to `-1` if not used
                                                 // For GT911, the RST pin is also used to configure the I2C address
-#define EXAMPLE_TOUCH_PIN_NUM_INT       (14)    // Set to `-1` if not used
+#define EXAMPLE_TOUCH_PIN_NUM_INT       (4)    // Set to `-1` if not used
                                                 // For GT911, the INT pin is also used to configure the I2C address
 
 #define _EXAMPLE_TOUCH_CLASS(name, ...) ESP_PanelTouch_##name(__VA_ARGS__)
@@ -91,27 +91,27 @@ void setup()
 
     Serial.println("Create I2C bus");
 #if EXAMPLE_TOUCH_ADDRESS == 0
-    ESP_PanelBus_I2C *touch_bus = new ESP_PanelBus_I2C(EXAMPLE_TOUCH_PIN_NUM_I2C_SCL, EXAMPLE_TOUCH_PIN_NUM_I2C_SDA,
-                                                       ESP_PANEL_TOUCH_I2C_PANEL_IO_CONFIG(EXAMPLE_TOUCH_NAME));
-    // Taking GT911 as an example, the following is the code after macro expansion:
     // ESP_PanelBus_I2C *touch_bus = new ESP_PanelBus_I2C(EXAMPLE_TOUCH_PIN_NUM_I2C_SCL, EXAMPLE_TOUCH_PIN_NUM_I2C_SDA,
-    //                                                    ESP_LCD_TOUCH_IO_I2C_GT911_CONFIG());
-#else
+    //                                                   ESP_PANEL_TOUCH_I2C_PANEL_IO_CONFIG(EXAMPLE_TOUCH_NAME));
+    // Taking GT911 as an example, the following is the code after macro expansion:
     ESP_PanelBus_I2C *touch_bus = new ESP_PanelBus_I2C(EXAMPLE_TOUCH_PIN_NUM_I2C_SCL, EXAMPLE_TOUCH_PIN_NUM_I2C_SDA,
+                                                        ESP_LCD_TOUCH_IO_I2C_GT911_CONFIG());
+#else
+    // ESP_PanelBus_I2C *touch_bus = new ESP_PanelBus_I2C(EXAMPLE_TOUCH_PIN_NUM_I2C_SCL, EXAMPLE_TOUCH_PIN_NUM_I2C_SDA,
                             ESP_PANEL_TOUCH_I2C_PANEL_IO_CONFIG_WITH_ADDR(EXAMPLE_TOUCH_NAME, EXAMPLE_TOUCH_ADDRESS));
     // Taking GT911 as an example, the following is the code after macro expansion:
-    // ESP_PanelBus_I2C *touch_bus = new ESP_PanelBus_I2C(EXAMPLE_TOUCH_PIN_NUM_I2C_SCL, EXAMPLE_TOUCH_PIN_NUM_I2C_SDA,
-    //                                                    ESP_LCD_TOUCH_IO_I2C_GT911_CONFIG_WITH_ADDR());
+    ESP_PanelBus_I2C *touch_bus = new ESP_PanelBus_I2C(EXAMPLE_TOUCH_PIN_NUM_I2C_SCL, EXAMPLE_TOUCH_PIN_NUM_I2C_SDA,
+                                                        ESP_LCD_TOUCH_IO_I2C_GT911_CONFIG_WITH_ADDR());
 #endif
     touch_bus->configI2cFreqHz(EXAMPLE_TOUCH_I2C_FREQ_HZ);
     touch_bus->begin();
 
     Serial.println("Create touch device");
-    touch = new EXAMPLE_TOUCH_CLASS(EXAMPLE_TOUCH_NAME, touch_bus, EXAMPLE_TOUCH_WIDTH, EXAMPLE_TOUCH_HEIGHT,
-                                    EXAMPLE_TOUCH_PIN_NUM_RST, EXAMPLE_TOUCH_PIN_NUM_INT);
+    //touch = new EXAMPLE_TOUCH_CLASS(EXAMPLE_TOUCH_NAME, touch_bus, EXAMPLE_TOUCH_WIDTH, EXAMPLE_TOUCH_HEIGHT,
+    //                                EXAMPLE_TOUCH_PIN_NUM_RST, EXAMPLE_TOUCH_PIN_NUM_INT);
     // Taking GT911 as an example, the following is the code after macro expansion:
-    // touch = new ESP_PanelTouch_GT911(touch_bus, EXAMPLE_TOUCH_WIDTH, EXAMPLE_TOUCH_HEIGHT,
-    //                                  EXAMPLE_TOUCH_PIN_NUM_RST, EXAMPLE_TOUCH_PIN_NUM_INT);
+    touch = new ESP_PanelTouch_GT911(touch_bus, EXAMPLE_TOUCH_WIDTH, EXAMPLE_TOUCH_HEIGHT,
+                                      EXAMPLE_TOUCH_PIN_NUM_RST, EXAMPLE_TOUCH_PIN_NUM_INT);
     touch->init();
     touch->begin();
 #if EXAMPLE_TOUCH_PIN_NUM_INT >= 0
