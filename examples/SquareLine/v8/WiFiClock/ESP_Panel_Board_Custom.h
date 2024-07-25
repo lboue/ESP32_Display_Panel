@@ -246,7 +246,7 @@
 #if ESP_PANEL_TOUCH_BUS_TYPE == ESP_PANEL_BUS_TYPE_I2C
 
     #define ESP_PANEL_TOUCH_BUS_HOST_ID     (0)     // Typically set to 0 to use the default address
-    #define ESP_PANEL_TOUCH_I2C_ADDRESS     (0)     // For GT911, there are two addresses: 0x5D(default) and 0x14
+    #define ESP_PANEL_TOUCH_I2C_ADDRESS     (0x14)  // For GT911, there are two addresses: 0x5D(default) and 0x14
 #if !ESP_PANEL_TOUCH_BUS_SKIP_INIT_HOST
     #define ESP_PANEL_TOUCH_I2C_CLK_HZ      (400 * 1000)
                                                     // Typically set to 400K
