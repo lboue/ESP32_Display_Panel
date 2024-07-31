@@ -1,6 +1,6 @@
 # Squareline Simple Wi-Fi Clock Example
 
-This example implements a simple Wi-Fi clock demo, which UI is created by Squareline Studio. And this example applies to LCDs with resolutions between *320x240* and *800x480*.
+This example implements a simple Wi-Fi clock demo, which UI is created by Squareline Studio. And this example applies to LCDs with *320x240* resolution.
 
 ## How to Use
 
